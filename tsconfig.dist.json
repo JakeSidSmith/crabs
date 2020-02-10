@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "listEmittedFiles": true,
+    "rootDir": "./src/",
+    "outDir": "./dist/"
+  },
+  "include": ["./src/", "./@types/"]
+}

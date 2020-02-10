@@ -1,0 +1,49 @@
+{
+  "name": "crabs",
+  "version": "0.0.0",
+  "description": "Run multiple crab processes with a single command",
+  "main": "dist/index.js",
+  "bin": "dist/cli.js",
+  "scripts": {
+    "dist": "rm -rf dist && rm -rf bin && tsc --project tsconfig.dist.json && pkg . --out-path bin --targets macos,linux",
+    "prettier": "prettier --write '**/*.{ts,tsx,js,jsx,json,md}'",
+    "prettier-check": "prettier --check '**/*.{ts,tsx,js,jsx,json,md}'",
+    "lint-js": "tslint --project tsconfig.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "lint": "npm run prettier-check && npm run typecheck && npm run lint-js",
+    "tests": "jest",
+    "test": "npm run lint && npm run tests -- --runInBand --coverage",
+    "prepublishOnly": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakesidsmith/crabs.git"
+  },
+  "keywords": [
+    "project",
+    "router",
+    "process",
+    "manage",
+    "procfile",
+    "env"
+  ],
+  "author": "Jake 'Sid' Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakesidsmith/crabs/issues"
+  },
+  "homepage": "https://github.com/jakesidsmith/crabs#readme",
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.0",
+    "jargs": "^0.4.1",
+    "jest": "^25.1.0",
+    "pkg": "^4.4.3",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.0",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.7.5"
+  }
+}

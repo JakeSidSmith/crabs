@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+    "pretty": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "target": "es6",
+    "module": "commonjs",
+    "typeRoots": ["./node_modules/@types/", "./@types/"]
+  },
+  "include": ["./src/", "./tests/", "./@types/"]
+}
