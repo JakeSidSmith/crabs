@@ -15,58 +15,46 @@ function start({ args, kwargs }: Tree) {
     const procfile = getProcfile();
     procfileProcesses = procfile.split('\n').map(line => {
       const index = line.indexOf(':');
-      return {
-        name: line.substring(0, index).trim(),
-        command: line.substring(index + 1).trim(),
-      };
+      return line.substring(0, index).trim();
     });
   } catch (error) {
     return logger.error((error && error.message) || error.toString(), true);
   }
 
-  const filteredProcfileProcesses = procfileProcesses.filter(
-    ({ name, command }) => {
-      if (!name || !command) {
-        return false;
-      }
-
-      if (processes.length) {
-        return processes.includes(name) && !excludes.includes(name);
-      }
-
-      return !excludes.includes(name);
+  const filteredProcfileProcesses = procfileProcesses.filter(name => {
+    if (!name) {
+      return false;
     }
-  );
+
+    if (processes.length) {
+      return processes.includes(name) && !excludes.includes(name);
+    }
+
+    return !excludes.includes(name);
+  });
 
   if (filteredProcfileProcesses.length) {
-    filteredProcfileProcesses.unshift({
-      name: 'router',
-      command: 'router',
-    });
+    filteredProcfileProcesses.unshift('router');
   }
 
   const longestProcessNameLength = Math.max(
     0,
-    ...filteredProcfileProcesses.map(({ name }) => name.length)
+    ...filteredProcfileProcesses.map(name => name.length)
   );
 
   process.stdout.setMaxListeners(20);
   process.stderr.setMaxListeners(20);
 
-  logger.log(
-    `Staring processes: ${filteredProcfileProcesses
-      .map(({ name }) => name)
-      .join(', ')}...`
-  );
+  logger.log(`Staring processes: ${filteredProcfileProcesses.join(', ')}...`);
 
-  filteredProcfileProcesses.forEach(({ name, command }, index) => {
+  filteredProcfileProcesses.forEach((name, index) => {
     const color = COLORS[index % COLORS.length];
     const padding = ' '.repeat(
       Math.max(0, longestProcessNameLength - name.length)
     );
     const prefix = color(`[ ${name} ${padding}] `);
 
-    spawn(prefix, command);
+    spawn(prefix, name);
   });
 }
 
