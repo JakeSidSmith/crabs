@@ -42,6 +42,13 @@ function start({ args, kwargs }: Tree) {
     ...filteredProcfileProcesses.map(({ name }) => name.length)
   );
 
+  if (filteredProcfileProcesses.length) {
+    filteredProcfileProcesses.unshift({
+      name: 'router',
+      command: 'router',
+    });
+  }
+
   filteredProcfileProcesses.forEach(({ name, command }, index) => {
     const color = COLORS[index % COLORS.length];
     const padding = longestProcessNameLength
