@@ -49,6 +49,9 @@ function start({ args, kwargs }: Tree) {
     });
   }
 
+  process.stdout.setMaxListeners(20);
+  process.stderr.setMaxListeners(20);
+
   filteredProcfileProcesses.forEach(({ name, command }, index) => {
     const color = COLORS[index % COLORS.length];
     const padding = longestProcessNameLength
