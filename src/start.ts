@@ -39,6 +39,7 @@ function start({ args, kwargs }: Tree) {
   );
 
   const longestProcessNameLength = Math.max(
+    0,
     ...filteredProcfileProcesses.map(({ name }) => name.length)
   );
 
@@ -60,9 +61,7 @@ function start({ args, kwargs }: Tree) {
 
   filteredProcfileProcesses.forEach(({ name, command }, index) => {
     const color = COLORS[index % COLORS.length];
-    const padding = longestProcessNameLength
-      ? ' '.repeat(longestProcessNameLength - name.length)
-      : '';
+    const padding = ' '.repeat(longestProcessNameLength - name.length);
     const prefix = color(`[ ${name} ${padding}] `);
 
     spawn(prefix, command);
