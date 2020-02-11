@@ -38,17 +38,17 @@ function start({ args, kwargs }: Tree) {
     }
   );
 
-  const longestProcessNameLength = Math.max(
-    0,
-    ...filteredProcfileProcesses.map(({ name }) => name.length)
-  );
-
   if (filteredProcfileProcesses.length) {
     filteredProcfileProcesses.unshift({
       name: 'router',
       command: 'router',
     });
   }
+
+  const longestProcessNameLength = Math.max(
+    0,
+    ...filteredProcfileProcesses.map(({ name }) => name.length)
+  );
 
   process.stdout.setMaxListeners(20);
   process.stderr.setMaxListeners(20);
@@ -61,7 +61,9 @@ function start({ args, kwargs }: Tree) {
 
   filteredProcfileProcesses.forEach(({ name, command }, index) => {
     const color = COLORS[index % COLORS.length];
-    const padding = ' '.repeat(longestProcessNameLength - name.length);
+    const padding = ' '.repeat(
+      Math.max(0, longestProcessNameLength - name.length)
+    );
     const prefix = color(`[ ${name} ${padding}] `);
 
     spawn(prefix, command);
