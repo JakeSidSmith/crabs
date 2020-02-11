@@ -34,14 +34,17 @@
   },
   "homepage": "https://github.com/jakesidsmith/crabs#readme",
   "devDependencies": {
+    "@types/event-stream": "^3.3.34",
     "@types/jest": "^25.1.2",
     "@types/node": "^13.7.0",
+    "chalk": "^3.0.0",
+    "event-stream": "^4.0.1",
     "jargs": "^0.4.1",
     "jest": "^25.1.0",
     "pkg": "^4.4.3",
     "prettier": "^1.19.1",
     "ts-jest": "^25.2.0",
-    "tslint": "^6.0.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.7.5"
