@@ -52,6 +52,12 @@ function start({ args, kwargs }: Tree) {
   process.stdout.setMaxListeners(20);
   process.stderr.setMaxListeners(20);
 
+  logger.log(
+    `Staring processes: ${filteredProcfileProcesses
+      .map(({ name }) => name)
+      .join(', ')}...`
+  );
+
   filteredProcfileProcesses.forEach(({ name, command }, index) => {
     const color = COLORS[index % COLORS.length];
     const padding = longestProcessNameLength
