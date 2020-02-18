@@ -33,7 +33,7 @@ function start({ args, kwargs }: Tree) {
     return !excludes.includes(name);
   });
 
-  if (filteredProcfileProcesses.length) {
+  if (filteredProcfileProcesses.length || processes.includes('router')) {
     if (!excludes.includes('router')) {
       filteredProcfileProcesses.unshift('router');
     }
