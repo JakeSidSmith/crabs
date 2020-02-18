@@ -23,13 +23,13 @@ collect(
         examples: START_EXAMPLES,
         callback: start,
       },
-      Arg('processes', {
-        description: 'Processes to run',
+      Arg('process', {
+        description: 'Process(es) to run',
         multi: true,
       }),
-      KWArg('excludes', {
+      KWArg('exclude', {
         alias: 'x',
-        description: 'Processes to exclude',
+        description: 'Process(es) to exclude',
         multi: true,
       })
     )

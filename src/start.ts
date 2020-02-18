@@ -6,8 +6,8 @@ import * as logger from './logger';
 import spawn from './spawn';
 
 function start({ args, kwargs }: Tree) {
-  const processes = (args.processes ? [...args.processes] : []) as string[];
-  const excludes = (kwargs.excludes ? [...kwargs.excludes] : []) as string[];
+  const processes = (args.process ? [...args.process] : []) as string[];
+  const excludes = (kwargs.exclude ? [...kwargs.exclude] : []) as string[];
 
   let procfileProcesses;
 
