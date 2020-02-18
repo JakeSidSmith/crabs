@@ -39,6 +39,10 @@ function start({ args, kwargs }: Tree) {
     }
   }
 
+  if (!filteredProcfileProcesses.length) {
+    logger.error('No processes to start', true);
+  }
+
   const longestProcessNameLength = Math.max(
     0,
     ...filteredProcfileProcesses.map(name => name.length)
