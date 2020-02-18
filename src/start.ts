@@ -34,7 +34,9 @@ function start({ args, kwargs }: Tree) {
   });
 
   if (filteredProcfileProcesses.length) {
-    filteredProcfileProcesses.unshift('router');
+    if (!excludes.includes('router')) {
+      filteredProcfileProcesses.unshift('router');
+    }
   }
 
   const longestProcessNameLength = Math.max(
