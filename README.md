@@ -116,3 +116,11 @@ npm run dist
 ```
 
 This will output several binaries into `./bin`.
+
+### Build and symlink for testing
+
+This will remove any existing installation, output several binaries into `./bin`, and symlink the macos binary:
+
+```shell
+rm /usr/local/bin/crabs && npm run dist && ln bin/crabs-macos /usr/local/bin/crabs
+```
