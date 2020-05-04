@@ -102,12 +102,12 @@ workflows:
   release:
     jobs:
       - test:
-        branches: '*'
+          branches: '*'
       - dist:
-        branches: '*'
+          branches: '*'
           requires:
             - test
       - release:
-        branches: '*'
+          branches: '*'
           requires:
             - dist
