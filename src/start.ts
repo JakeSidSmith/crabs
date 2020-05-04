@@ -31,7 +31,7 @@ function start({ args, kwargs, flags }: ProgramArgs) {
       return line.substring(0, index).trim();
     });
   } catch (error) {
-    return logger.error((error && error.message) || error.toString(), true);
+    return logger.error(error?.message || error.toString(), true);
   }
 
   const filteredProcfileProcesses = procfileProcesses.filter(name => {
