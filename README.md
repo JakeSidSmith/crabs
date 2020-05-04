@@ -4,6 +4,8 @@
 
 ## Installation
 
+Make sure you have installed [crab](https://github.com/dabapps/crab)... duh.
+
 Download the relevant release for your machine from the [GitHub releases](https://github.com/JakeSidSmith/crabs/releases).
 
 First we need to make sure the file is executable e.g.
