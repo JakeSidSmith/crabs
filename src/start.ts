@@ -6,7 +6,14 @@ import getProcfile from './get-procfile';
 import * as logger from './logger';
 import spawn from './spawn';
 
-function start({ args, kwargs, flags }: Tree) {
+export type ProgramArgs = Tree<
+  undefined,
+  { exclude: readonly string[] },
+  { version: true },
+  { process: readonly string[] }
+>;
+
+function start({ args, kwargs, flags }: ProgramArgs) {
   if (flags.version) {
     logger.log(versionNumber);
     return;
