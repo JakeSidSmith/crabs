@@ -101,24 +101,9 @@ workflows:
   release:
     jobs:
       - test:
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+$/
-            branches:
-              ignore: /.*/
       - dist:
           requires:
             - test
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+$/
-            branches:
-              ignore: /.*/
       - release:
           requires:
             - dist
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v\d+\.\d+\.\d+$/
