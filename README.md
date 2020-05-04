@@ -17,6 +17,32 @@ chmod +x ~/Downloads/crabs-macos
 mv ~/Downloads/crabs-macos /usr/local/bin/crabs
 ```
 
+## Usage
+
+Run all processes for a project (including a crab router):
+
+```shell
+crabs
+```
+
+Exclude process(es):
+
+```shell
+crabs -x worker -x scheduler
+```
+
+Run specified process(es):
+
+```shell
+crabs web watch-js watch-css
+```
+
+View help and usage info:
+
+```shell
+crabs --help
+```
+
 ## Contributing
 
 ### Prerequisites
