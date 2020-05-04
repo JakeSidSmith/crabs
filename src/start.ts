@@ -22,6 +22,9 @@ function start({ args, kwargs, flags }: ProgramArgs) {
 
   const processes = (args.process ? [...args.process] : []) as string[];
   const excludes = (kwargs.exclude ? [...kwargs.exclude] : []) as string[];
+  const globalExcludes = process.env.CRABS_EXCLUDE?.split(',') || [];
+
+  const allExcludes = [...excludes, ...globalExcludes];
 
   let procfileProcesses: readonly string[];
 
@@ -46,8 +49,8 @@ function start({ args, kwargs, flags }: ProgramArgs) {
       return processes.some(include => matcher.isMatch(name, include));
     }
 
-    if (excludes.length) {
-      return !excludes.some(exclude => matcher.isMatch(name, exclude));
+    if (allExcludes.length) {
+      return !allExcludes.some(exclude => matcher.isMatch(name, exclude));
     }
 
     return true;
