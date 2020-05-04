@@ -98,5 +98,7 @@ workflows:
           requires:
             - dist
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^\d+\.\d+\.\d+$/
