@@ -43,7 +43,7 @@ function start({ args, kwargs, flags }: ProgramArgs) {
     }
 
     if (processes.length) {
-      return matcher.isMatch(name, processes);
+      return processes.some(include => matcher.isMatch(name, include));
     }
 
     if (excludes.length) {
