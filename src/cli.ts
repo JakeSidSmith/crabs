@@ -1,7 +1,7 @@
 import { Arg, collect, Flag, Help, KWArg, Program } from 'jargs';
 
 import { PROGRAM } from './constants';
-import start from './start';
+import start, { ProgramArgs } from './start';
 
 const START_EXAMPLES = [
   `${PROGRAM}`,
@@ -15,7 +15,7 @@ collect(
     {
       alias: 'h',
     },
-    Program(
+    Program<ProgramArgs>(
       'crabs',
       {
         description: 'Run multiple crab processes with a single command',

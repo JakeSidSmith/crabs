@@ -1,4 +1,5 @@
 import { Tree } from 'jargs';
+import * as matcher from 'matcher';
 
 import { version as versionNumber } from '../package.json';
 import { COLORS } from './constants';
@@ -6,7 +7,14 @@ import getProcfile from './get-procfile';
 import * as logger from './logger';
 import spawn from './spawn';
 
-function start({ args, kwargs, flags }: Tree) {
+export type ProgramArgs = Tree<
+  undefined,
+  { exclude: readonly string[] | undefined },
+  { version: true | undefined },
+  { process: readonly string[] | undefined }
+>;
+
+function start({ args, kwargs, flags }: ProgramArgs) {
   if (flags.version) {
     logger.log(versionNumber);
     return;
@@ -14,17 +22,22 @@ function start({ args, kwargs, flags }: Tree) {
 
   const processes = (args.process ? [...args.process] : []) as string[];
   const excludes = (kwargs.exclude ? [...kwargs.exclude] : []) as string[];
+  const globalExcludes = process.env.CRABS_EXCLUDE?.split(',') || [];
 
-  let procfileProcesses;
+  const allExcludes = [...excludes, ...globalExcludes];
+
+  let procfileProcesses: readonly string[];
 
   try {
     const procfile = getProcfile();
-    procfileProcesses = procfile.split('\n').map(line => {
-      const index = line.indexOf(':');
-      return line.substring(0, index).trim();
-    });
+    procfileProcesses = ['router'].concat(
+      procfile.split('\n').map(line => {
+        const index = line.indexOf(':');
+        return line.substring(0, index).trim();
+      })
+    );
   } catch (error) {
-    return logger.error((error && error.message) || error.toString(), true);
+    return logger.error(error?.message || error.toString(), true);
   }
 
   const filteredProcfileProcesses = procfileProcesses.filter(name => {
@@ -33,17 +46,15 @@ function start({ args, kwargs, flags }: Tree) {
     }
 
     if (processes.length) {
-      return processes.includes(name) && !excludes.includes(name);
+      return processes.some(include => matcher.isMatch(name, include));
     }
 
-    return !excludes.includes(name);
+    if (allExcludes.length) {
+      return !allExcludes.some(exclude => matcher.isMatch(name, exclude));
+    }
+
+    return true;
   });
-
-  if (filteredProcfileProcesses.length || processes.includes('router')) {
-    if (!excludes.includes('router')) {
-      filteredProcfileProcesses.unshift('router');
-    }
-  }
 
   if (!filteredProcfileProcesses.length) {
     logger.error('No processes to start', true);
