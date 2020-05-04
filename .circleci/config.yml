@@ -92,7 +92,7 @@ jobs:
           name: Create GitHub release
           command: |
             VERSION="v$(cat VERSION)"
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./bin/
+            ghr -t ${GITHUB_TOKEN} -n "Release ${VERSION}" -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./bin/
 
 workflows:
   version: 2
