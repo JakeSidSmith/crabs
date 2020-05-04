@@ -39,7 +39,7 @@ crabs -x worker -x scheduler
 Run specified process(es):
 
 ```shell
-crabs web watch-js watch-css
+crabs router web watch-js
 ```
 
 Note: specifying processes will ignore excluded processes so the following would still run the web process:
