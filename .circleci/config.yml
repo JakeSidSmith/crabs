@@ -88,17 +88,17 @@ workflows:
   build:
     jobs:
       - build:
-        requires:
-          - test
-        filters:
-          branches:
-            ignore:
-              - gh-pages
+          requires:
+            - test
+          filters:
+            branches:
+              ignore:
+                - gh-pages
   release:
     jobs:
       - release:
-        requires:
-          - build
-        filters:
-          tags:
-            only: /^\d+\.\d+\.\d+$/
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
