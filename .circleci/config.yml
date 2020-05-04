@@ -82,6 +82,7 @@ jobs:
             ls
             cp crabs-linux crabs_linux
             ls
+            chmod +x crabs_linux
             ./crabs_linux
             ./crabs-linux
             VERSION="v$(./crabs-linux --version)"
