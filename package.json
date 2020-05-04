@@ -11,7 +11,7 @@
     "lint-js": "tslint --project tsconfig.json",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "lint": "npm run prettier-check && npm run typecheck && npm run lint-js",
-    "tests": "jest",
+    "tests": "jest --passWithNoTests",
     "test": "npm run lint && npm run tests -- --runInBand --coverage",
     "prepublishOnly": "npm test"
   },

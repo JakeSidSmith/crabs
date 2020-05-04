@@ -6,28 +6,18 @@ version: 2
 jobs:
   test:
     docker:
-      # specify the version you desire here
       - image: circleci/node:12.13
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package-lock.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - dependencies-
+            - dependencies-{{ checksum "package-lock.json" }}
+            - dependencies-
 
       - run:
-          name: Install
+          name: Install dependencies
           command: npm ci
 
       - save_cache:
@@ -35,10 +25,74 @@ jobs:
             - node_modules
           key: dependencies-{{ checksum "package-lock.json" }}
 
-      # run tests!
       - run:
-          name: Test
+          name: Run tests
           command: npm test
+
+      - run:
+          name: Create binaries
+          command: npm run dist
+
+      - run:
+          name: Output version number
+          command: bin/crabs-linux --version
+
+  test-and-prepare-release:
+    docker:
+      - image: circleci/node:12.13
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+            - dependencies-
+
+      - run:
+          name: Install dependencies
+          command: npm ci
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: Run tests
+          command: npm test
+
+      - run:
+          name: Create binaries
+          command: npm run dist
+
+      - run:
+          name: Output version number to VERSION file
+          command: |
+            bin/crabs-linux --version > VERSION
+            cat VERSION
+
+      - store_artifacts:
+          path: bin
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - bin
+            - VERSION
+
+  release:
+    docker:
+      - image: cibuilds/github:0.13
+
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Create GitHub release
+          command: |
+            VERSION="v$(cat VERSION)"
+            ghr -t ${GITHUB_TOKEN} -n "Release ${VERSION}" -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./bin/
 
 workflows:
   version: 2
@@ -49,3 +103,20 @@ workflows:
             branches:
               ignore:
                 - gh-pages
+
+  release:
+    jobs:
+      - test-and-prepare-release:
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+      - release:
+          requires:
+            - test-and-prepare-release
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
