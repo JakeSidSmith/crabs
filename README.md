@@ -71,7 +71,7 @@ crabs w*e*b
 
 You would have to escape the `*`s with one of the following:
 
-```
+```shell
 crabs 'w\*e\*b'
 crabs w\\*e\\*b
 ```
@@ -100,7 +100,7 @@ nvm use
 
 If you don't have the correct version install already this may prompt you to run (just once):
 
-```
+```shell
 nvm install
 ```
 
