@@ -6,14 +6,19 @@
 
 Download the relevant release for your machine from the [GitHub releases](https://github.com/JakeSidSmith/crabs/releases).
 
-If you are using MacOS Catalina then you'll have to do a stu[id thing before you can start using crabs.
-
-Right click on the file you downloaded. Select "Open". A dialog will appear. Select "Open" again. You can then kill the terminal this opened.
-
-Now just make it executable and move it to somewhere on your path:
+First we need to make sure the file is executable e.g.
 
 ```shell
 chmod +x ~/Downloads/crabs-macos
+```
+
+If you are using MacOS Catalina then you'll have to do a stupid thing before you can start using crabs.
+
+Right click on the file you downloaded. Select "Open". A dialog will appear. Select "Open" again. You can then kill the terminal this opened.
+
+Now just move it to somewhere on your path:
+
+```shell
 mv ~/Downloads/crabs-macos /usr/local/bin/crabs
 ```
 
