@@ -26,10 +26,12 @@ function start({ args, kwargs, flags }: ProgramArgs) {
 
   try {
     const procfile = getProcfile();
-    procfileProcesses = procfile.split('\n').map(line => {
-      const index = line.indexOf(':');
-      return line.substring(0, index).trim();
-    });
+    procfileProcesses = ['router'].concat(
+      procfile.split('\n').map(line => {
+        const index = line.indexOf(':');
+        return line.substring(0, index).trim();
+      })
+    );
   } catch (error) {
     return logger.error(error?.message || error.toString(), true);
   }
@@ -45,12 +47,6 @@ function start({ args, kwargs, flags }: ProgramArgs) {
 
     return !excludes.includes(name);
   });
-
-  if (filteredProcfileProcesses.length || processes.includes('router')) {
-    if (!excludes.includes('router')) {
-      filteredProcfileProcesses.unshift('router');
-    }
-  }
 
   if (!filteredProcfileProcesses.length) {
     logger.error('No processes to start', true);
