@@ -6,25 +6,17 @@ version: 2
 jobs:
   test:
     docker:
-      # specify the version you desire here
       - image: circleci/node:12.13
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package-lock.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - dependencies-
+            - dependencies-{{ checksum "package-lock.json" }}
+            - dependencies-
 
       - run:
           name: Install
@@ -35,17 +27,77 @@ jobs:
             - node_modules
           key: dependencies-{{ checksum "package-lock.json" }}
 
-      # run tests!
       - run:
           name: Test
           command: npm test
 
+  dist:
+    docker:
+      - image: circleci/node:12.13
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package-lock.json" }}
+            - dependencies-
+
+      - run:
+          name: Install
+          command: npm ci
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "package-lock.json" }}
+
+      - run:
+          name: Dist
+          command: npm run dist
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - bin
+      - store_artifacts:
+          path: bin
+
+  release:
+    docker:
+      - image: cibuilds/github:0.13
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Release
+          command: |
+            VERSION=$(./bin/crabs-linux --version)
+            ghr -t ${GITHUB_TOKEN} -n "Release ${VERSION}" -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./bin/
+
 workflows:
   version: 2
-  test:
+  test-dist-release:
     jobs:
       - test:
           filters:
             branches:
               ignore:
                 - gh-pages
+      - dist:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+      - release:
+          requires:
+            - dist
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/

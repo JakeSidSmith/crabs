@@ -1,4 +1,4 @@
-import { Arg, collect, Help, KWArg, Program } from 'jargs';
+import { Arg, collect, Flag, Help, KWArg, Program } from 'jargs';
 
 import { PROGRAM } from './constants';
 import start from './start';
@@ -23,6 +23,10 @@ collect(
         examples: START_EXAMPLES,
         callback: start,
       },
+      Flag('version', {
+        description: 'Display current version number',
+        alias: 'v',
+      }),
       Arg('process', {
         description: 'Process(es) to run',
         multi: true,
