@@ -58,12 +58,13 @@ jobs:
           name: Dist
           command: npm run dist
 
+      - store_artifacts:
+          path: bin
+
       - persist_to_workspace:
           root: .
           paths:
             - bin
-      - store_artifacts:
-          path: bin
 
   release:
     docker:
