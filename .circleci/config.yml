@@ -8,8 +8,6 @@ jobs:
     docker:
       - image: circleci/node:12.13
 
-    working_directory: ~/repo
-
     steps:
       - checkout
 
@@ -19,7 +17,7 @@ jobs:
             - dependencies-
 
       - run:
-          name: Install
+          name: Install dependencies
           command: npm ci
 
       - save_cache:
@@ -28,15 +26,21 @@ jobs:
           key: dependencies-{{ checksum "package-lock.json" }}
 
       - run:
-          name: Test
+          name: Run tests
           command: npm test
 
-  dist:
+      - run:
+          name: Create binaries
+          command: npm run dist
+
+      - run:
+          name: Output version number
+          command: bin/crabs-linux --version
+
+  test-and-prepare-release:
     docker:
       - image: circleci/node:12.13
 
-    working_directory: ~/repo
-
     steps:
       - checkout
 
@@ -46,7 +50,7 @@ jobs:
             - dependencies-
 
       - run:
-          name: Install
+          name: Install dependencies
           command: npm ci
 
       - save_cache:
@@ -55,8 +59,18 @@ jobs:
           key: dependencies-{{ checksum "package-lock.json" }}
 
       - run:
-          name: Dist
+          name: Run tests
+          command: npm test
+
+      - run:
+          name: Create binaries
           command: npm run dist
+
+      - run:
+          name: Output version number to VERSION file
+          command: |
+            bin/crabs-linux --version > VERSION
+            cat VERSION
 
       - store_artifacts:
           path: bin
@@ -65,20 +79,19 @@ jobs:
           root: .
           paths:
             - bin
+            - VERSION
 
   release:
     docker:
       - image: cibuilds/github:0.13
 
-    working_directory: ~/repo
-
     steps:
       - attach_workspace:
           at: .
       - run:
-          name: Release
+          name: Create GitHub release
           command: |
-            VERSION="v$(bin/crabs-linux --version)"
+            VERSION="v$(cat VERSION)"
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./bin/
 
 workflows:
@@ -90,25 +103,10 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-      - dist:
-          requires:
-            - test
-          filters:
-            branches:
-              ignore:
-                - gh-pages
 
   release:
     jobs:
-      - test:
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+$/
-            branches:
-              ignore: /.*/
-      - dist:
-          requires:
-            - test
+      - test-and-prepare-release:
           filters:
             tags:
               only: /^v\d+\.\d+\.\d+$/
