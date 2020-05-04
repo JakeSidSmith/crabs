@@ -114,7 +114,7 @@ workflows:
               ignore: /.*/
       - release:
           requires:
-            - dist
+            - test-and-prepare-release
           filters:
             branches:
               ignore: /.*/
