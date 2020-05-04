@@ -79,7 +79,7 @@ jobs:
 
 workflows:
   version: 2
-  test-dist-release:
+  test-dist:
     jobs:
       - test:
           filters:
@@ -90,6 +90,25 @@ workflows:
           requires:
             - test
           filters:
+            branches:
+              ignore:
+                - gh-pages
+
+  test-dist-release:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+            branches:
+              ignore:
+                - gh-pages
+      - dist:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
             branches:
               ignore:
                 - gh-pages
