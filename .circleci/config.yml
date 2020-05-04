@@ -31,7 +31,7 @@ jobs:
           name: Test
           command: npm test
 
-  build:
+  dist:
     docker:
       - image: circleci/node:12.13
 
@@ -78,27 +78,23 @@ jobs:
 
 workflows:
   version: 2
-  test:
+  test-dist-release:
     jobs:
       - test:
           filters:
             branches:
               ignore:
                 - gh-pages
-  build:
-    jobs:
-      - build:
+      - dist:
           requires:
             - test
           filters:
             branches:
               ignore:
                 - gh-pages
-  release:
-    jobs:
       - release:
           requires:
-            - build
+            - dist
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
