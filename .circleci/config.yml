@@ -58,6 +58,10 @@ jobs:
           name: Dist
           command: npm run dist
 
+      - run:
+          name: Version
+          command: bin/crabs-linux --version
+
       - store_artifacts:
           path: bin
 
@@ -105,24 +109,24 @@ workflows:
               ignore:
                 - gh-pages
 
-  release:
-    jobs:
-      - test:
-          filters:
-            branches:
-              ignore:
-                -gh-pages
-      - dist:
-          filters:
-            branches:
-              ignore:
-                -gh-pages
-          requires:
-            - test
-      - release:
-          filters:
-            branches:
-              ignore:
-                -gh-pages
-          requires:
-            - dist
+  # release:
+  #   jobs:
+  #     - test:
+  #         filters:
+  #           branches:
+  #             ignore:
+  #               -gh-pages
+  #     - dist:
+  #         filters:
+  #           branches:
+  #             ignore:
+  #               -gh-pages
+  #         requires:
+  #           - test
+  #     - release:
+  #         filters:
+  #           branches:
+  #             ignore:
+  #               -gh-pages
+  #         requires:
+  #           - dist
