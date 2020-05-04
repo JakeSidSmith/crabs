@@ -8,9 +8,9 @@ import spawn from './spawn';
 
 export type ProgramArgs = Tree<
   undefined,
-  { exclude: readonly string[] },
-  { version: true },
-  { process: readonly string[] }
+  { exclude: readonly string[] | undefined },
+  { version: true | undefined },
+  { process: readonly string[] | undefined }
 >;
 
 function start({ args, kwargs, flags }: ProgramArgs) {
