@@ -58,12 +58,13 @@ jobs:
           name: Dist
           command: npm run dist
 
+      - store_artifacts:
+          path: bin
+
       - persist_to_workspace:
           root: .
           paths:
             - bin
-      - store_artifacts:
-          path: bin
 
   release:
     docker:
@@ -75,14 +76,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: List files
-          command: |
-            ls
-            ls bin
-      - run:
           name: Release
           command: |
-            VERSION="v$(~/repo/bin/crabs-linux --version)"
+            VERSION="v$(bin/crabs-linux --version)"
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./bin/
 
 workflows:
