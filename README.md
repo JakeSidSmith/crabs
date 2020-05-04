@@ -42,6 +42,12 @@ Run specified process(es):
 crabs web watch-js watch-css
 ```
 
+Note: specifying processes will ignore excluded processes so the following would still run the web process:
+
+```shell
+crabs web -x web
+```
+
 View help and usage info:
 
 ```shell
