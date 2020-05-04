@@ -78,8 +78,8 @@ jobs:
       - run:
           name: Release
           command: |
-            ls -lah bin/crabs-linux
-            VERSION="v$(bin/crabs-linux --version)"
+            cd bin
+            VERSION="v$(crabs-linux --version)"
             echo "$VERSION"
 
 workflows:
