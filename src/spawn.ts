@@ -5,8 +5,8 @@ import * as es from 'event-stream';
 import { MATCHES_SPACES } from './constants';
 import * as logger from './logger';
 
-function spawn(prefix: string, command: string) {
-  const subProcess = childProcess.spawn('crab', command.split(MATCHES_SPACES), {
+function spawn(prefix: string, proc: string) {
+  const subProcess = childProcess.spawn('crab', proc.split(MATCHES_SPACES), {
     shell: true,
     stdio: 'pipe',
   });
