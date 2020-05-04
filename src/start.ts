@@ -46,7 +46,11 @@ function start({ args, kwargs, flags }: ProgramArgs) {
       return matcher.isMatch(name, processes);
     }
 
-    return !matcher.isMatch(name, excludes);
+    if (excludes.length) {
+      return !excludes.some(exclude => matcher.isMatch(name, exclude));
+    }
+
+    return true;
   });
 
   if (!filteredProcfileProcesses.length) {
