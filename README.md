@@ -43,6 +43,10 @@ View help and usage info:
 crabs --help
 ```
 
+## Environment variables
+
+Crabs uses the crab `PROC_FILE` environment variable to look for procfiles.
+
 ## Contributing
 
 ### Prerequisites
