@@ -68,9 +68,17 @@ jobs:
   release:
     docker:
       - image: cibuilds/github:0.13
+
+    working_directory: ~/repo
+
     steps:
       - attach_workspace:
           at: .
+      - run:
+          name: List files
+          command: |
+            ls
+            ls bin
       - run:
           name: Release
           command: |
