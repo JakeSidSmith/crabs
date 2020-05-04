@@ -76,11 +76,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: List files
-          command: |
-            ls
-            ls bin
-      - run:
           name: Release
           command: |
             VERSION="v$(~/repo/bin/crabs-linux --version)"
