@@ -42,10 +42,38 @@ Run specified process(es):
 crabs router web watch-js
 ```
 
-Note: specifying processes will ignore excluded processes so the following would still run the web process:
+Note: specifying processes will ignore excluded processes so the following would still run the "web" process:
 
 ```shell
 crabs web -x web
+```
+
+You can even use `!` and `*` wildcards e.g. the following will start all processes beginning with "watch":
+
+```shell
+crabs watch*
+```
+
+Either of the following will exclude processes containing "worker":
+
+```shell
+crabs -x *worker*
+crabs '!*worker*'
+```
+
+Because of the special `!` and `*` characters, you will need escape them if you want to match processes with those in the names (which would be really weird, why would you do that?).
+
+E.g. if you had a process called "w\*e\*b" and a process called "web", running the following would start both:
+
+```shell
+crabs w*e*b
+```
+
+You would have to escape the `*`s with one of the following:
+
+```
+crabs 'w\*e\*b'
+crabs w\\*e\\*b
 ```
 
 View help and usage info:
