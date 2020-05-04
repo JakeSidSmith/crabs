@@ -42,7 +42,7 @@ function start({ args, kwargs, flags }: ProgramArgs) {
     }
 
     if (processes.length) {
-      return processes.includes(name) && !excludes.includes(name);
+      return processes.includes(name);
     }
 
     return !excludes.includes(name);
