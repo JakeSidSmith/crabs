@@ -51,13 +51,13 @@ crabs web -x web
 You can even use `!` and `*` wildcards e.g. the following will start all processes beginning with "watch":
 
 ```shell
-crabs watch*
+crabs 'watch*'
 ```
 
 Either of the following will exclude processes containing "worker":
 
 ```shell
-crabs -x *worker*
+crabs -x '*worker*'
 crabs '!*worker*'
 ```
 
@@ -66,14 +66,13 @@ Because of the special `!` and `*` characters, you will need escape them if you 
 E.g. if you had a process called "w\*e\*b" and a process called "web", running the following would start both:
 
 ```shell
-crabs w*e*b
+crabs 'w*e*b'
 ```
 
-You would have to escape the `*`s with one of the following:
+You would have to escape the `*`s with something like:
 
 ```shell
 crabs 'w\*e\*b'
-crabs w\\*e\\*b
 ```
 
 View help and usage info:
