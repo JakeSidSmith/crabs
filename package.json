@@ -1,6 +1,6 @@
 {
   "name": "crabs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Run multiple crab processes with a single command",
   "main": "dist/src/index.js",
   "bin": "dist/src/cli.js",
