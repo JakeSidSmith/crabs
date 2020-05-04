@@ -78,6 +78,7 @@ jobs:
       - run:
           name: Release
           command: |
+            ls -lah bin/crabs-linux
             VERSION="v$(bin/crabs-linux --version)"
             echo "$VERSION"
 
