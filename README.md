@@ -2,6 +2,8 @@
 
 **Run multiple [crab](https://github.com/dabapps/crab) processes with a single command**
 
+[![CircleCI](https://circleci.com/gh/JakeSidSmith/crabs.svg?style=svg)](https://circleci.com/gh/JakeSidSmith/crabs)
+
 ## Installation
 
 Make sure you have installed [crab](https://github.com/dabapps/crab)... duh.
