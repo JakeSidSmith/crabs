@@ -15,7 +15,7 @@ function start({ args, kwargs, flags }: Tree) {
   const processes = (args.process ? [...args.process] : []) as string[];
   const excludes = (kwargs.exclude ? [...kwargs.exclude] : []) as string[];
 
-  let procfileProcesses;
+  let procfileProcesses: readonly string[];
 
   try {
     const procfile = getProcfile();
