@@ -1,4 +1,5 @@
 import { Tree } from 'jargs';
+import * as matcher from 'matcher';
 
 import { version as versionNumber } from '../package.json';
 import { COLORS } from './constants';
@@ -42,10 +43,10 @@ function start({ args, kwargs, flags }: ProgramArgs) {
     }
 
     if (processes.length) {
-      return processes.includes(name);
+      return matcher.isMatch(name, processes);
     }
 
-    return !excludes.includes(name);
+    return !matcher.isMatch(name, excludes);
   });
 
   if (!filteredProcfileProcesses.length) {
