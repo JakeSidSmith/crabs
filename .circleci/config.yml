@@ -103,14 +103,20 @@ workflows:
     jobs:
       - test:
           filters:
-            branches: '*'
+            branches:
+              ignore:
+                -gh-pages
       - dist:
           filters:
-            branches: '*'
+            branches:
+              ignore:
+                -gh-pages
           requires:
             - test
       - release:
           filters:
-            branches: '*'
+            branches:
+              ignore:
+                -gh-pages
           requires:
             - dist
