@@ -68,6 +68,9 @@ jobs:
   release:
     docker:
       - image: cibuilds/github:0.13
+
+    working_directory: ~/repo
+
     steps:
       - attach_workspace:
           at: .
