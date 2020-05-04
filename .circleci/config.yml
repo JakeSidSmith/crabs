@@ -79,7 +79,7 @@ jobs:
 
 workflows:
   version: 2
-  test-dist:
+  test:
     jobs:
       - test:
           filters:
@@ -94,7 +94,7 @@ workflows:
               ignore:
                 - gh-pages
 
-  test-dist-release:
+  release:
     jobs:
       - test:
           filters:
