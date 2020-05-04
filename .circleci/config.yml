@@ -80,6 +80,9 @@ jobs:
           command: |
             cd bin
             ls
+            cp crabs-linux crabs_linux
+            ls
+            ./crabs_linux
             ./crabs-linux
             VERSION="v$(./crabs-linux --version)"
             echo "$VERSION"
