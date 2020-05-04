@@ -2,8 +2,8 @@
   "name": "crabs",
   "version": "0.0.0",
   "description": "Run multiple crab processes with a single command",
-  "main": "dist/index.js",
-  "bin": "dist/cli.js",
+  "main": "dist/src/index.js",
+  "bin": "dist/src/cli.js",
   "scripts": {
     "dist": "rm -rf dist && rm -rf bin && tsc --project tsconfig.dist.json && pkg . --out-path bin --targets macos,linux",
     "prettier": "prettier --write '**/*.{ts,tsx,js,jsx,json,md}'",

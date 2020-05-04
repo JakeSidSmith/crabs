@@ -1,11 +1,17 @@
 import { Tree } from 'jargs';
 
+import { version as versionNumber } from '../package.json';
 import { COLORS } from './constants';
 import getProcfile from './get-procfile';
 import * as logger from './logger';
 import spawn from './spawn';
 
-function start({ args, kwargs }: Tree) {
+function start({ args, kwargs, flags }: Tree) {
+  if (flags.version) {
+    logger.log(versionNumber);
+    return;
+  }
+
   const processes = (args.process ? [...args.process] : []) as string[];
   const excludes = (kwargs.exclude ? [...kwargs.exclude] : []) as string[];
 

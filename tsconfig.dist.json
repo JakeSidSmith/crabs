@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "listEmittedFiles": true,
-    "rootDir": "./src/",
+    "rootDir": ".",
     "outDir": "./dist/"
   },
-  "include": ["./src/", "./@types/"]
+  "include": ["./src/", "./@types/", "package.json"]
 }
